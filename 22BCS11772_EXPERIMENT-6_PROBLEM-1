@@ -1,0 +1,42 @@
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int val) { this.val = val; }
+}
+
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return helper(nums, 0, nums.length - 1);
+    }
+
+    private TreeNode helper(int[] nums, int left, int right) {
+        if (left > right) return null;
+
+        int mid = left + (right - left) / 2; // Find middle element
+        TreeNode root = new TreeNode(nums[mid]);
+
+        root.left = helper(nums, left, mid - 1);  // Construct left subtree
+        root.right = helper(nums, mid + 1, right); // Construct right subtree
+
+        return root;
+    }
+
+    // Helper method to print the BST (in-order traversal)
+    public void inorderTraversal(TreeNode root) {
+        if (root != null) {
+            inorderTraversal(root.left);
+            System.out.print(root.val + " ");
+            inorderTraversal(root.right);
+        }
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] nums = {-10, -3, 0, 5, 9};
+        TreeNode root = solution.sortedArrayToBST(nums);
+
+        // Print the tree (in-order)
+        solution.inorderTraversal(root);
+    }
+}
